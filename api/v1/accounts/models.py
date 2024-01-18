@@ -5,7 +5,6 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractUser
 
 from api.v1.accounts.managers import CustomUserManager
-from api.v1.accounts.validators import validate_domain
 
 
 class CustomUser(AbstractUser):

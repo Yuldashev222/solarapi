@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.hashers import make_password
 
 from api.v1.accounts.models import CustomUser
 
@@ -16,6 +17,8 @@ class CustomUserAdmin(admin.ModelAdmin):
         return super().get_queryset(request).filter(is_staff=False)
 
     def save_model(self, request, obj, form, change):
-        if not obj.pk or obj.password != CustomUser.objects.get(pk=obj.pk).password:
+        if not obj.pk:
+            obj.set_password(obj.password)
+        elif obj.password != CustomUser.objects.get(pk=obj.pk).password:
             obj.set_password(obj.password)
         super().save_model(request, obj, form, change)
