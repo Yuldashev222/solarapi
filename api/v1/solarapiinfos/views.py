@@ -16,7 +16,7 @@ class SolarInfoAPIView(GenericAPIView):
 
     def get(self, request, *args, **kwargs):
         domain = request.query_params.get('domain')
-        if domain is None or not validators.domain(domain):
+        if domain is None:  # or not validators.domain(domain):
             raise AuthenticationFailed({'error': 'authentication failed'})
 
         try:
