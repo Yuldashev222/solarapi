@@ -1,3 +1,7 @@
+# cpanel configs
+passenger_wsgi.py
+tmp/
+
 db.sqlite3
 6_sec.mp4
 85_sec.mp4
