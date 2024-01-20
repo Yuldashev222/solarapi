@@ -119,7 +119,12 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SOLAR_API_KEY = os.environ.get("API_KEY")
-SOLAR_API_REQUIRED_QUALITY = "HIGH"
+SOLAR_API_REQUIRED_QUALITY = "MEDIUM"
+
 BUILDING_INSIGHTS = "https://solar.googleapis.com/v1/buildingInsights:findClosest"
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+CLIENT_APPS = ['customers', 'services', 'solarapiinfos']
+CLIENT_MAX_SERVICES = 10
+ADMIN_SITE_HEADER = 'Suncount.io'

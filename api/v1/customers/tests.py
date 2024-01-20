@@ -1,3 +1,5 @@
-from django.test import TestCase
+import requests
 
-# Create your tests here.
+for i in range(1000):
+    r = requests.get("https://octagonleague.com/fighter/mukhamadzhon-kurbanov")
+    print(r)

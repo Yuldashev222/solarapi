@@ -1,0 +1,8 @@
+Django==5.0.1
+django-phonenumber-field==7.3.0
+djangorestframework==3.14.0
+phonenumberslite==8.13.27
+pillow==10.2.0
+python-dotenv==1.0.0
+requests==2.31.0
+validators==0.22.0

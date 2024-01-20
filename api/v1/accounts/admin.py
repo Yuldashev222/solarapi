@@ -1,20 +1,38 @@
+from django.conf import settings
 from django.contrib import admin
-from django.contrib.auth.hashers import make_password
+from django.db.models import Count
+from django.contrib.auth.models import Group
 
 from api.v1.accounts.models import CustomUser
+
+admin.site.unregister(Group)
+
+admin.site.site_header = settings.ADMIN_SITE_HEADER
 
 
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('client_domain', 'email', 'first_name', 'last_name')
-    list_display_links = ('client_domain', 'email', 'first_name', 'last_name')
-    search_fields = ('client_domain', 'email', 'first_name', 'last_name')
+    list_display = (
+        'domain', 'company_name', 'requests',
+        'customers', 'email', 'first_name', 'last_name', 'is_active'
+    )
+    list_display_links = ('domain', 'email', 'first_name', 'last_name')
+    search_fields = ('domain', 'email', 'first_name', 'last_name')
 
-    fields = ('client_domain', 'email', 'password', 'first_name', 'last_name', 'is_active', 'date_joined')
+    fields = (
+        'domain', 'email', 'password', 'country', 'city', 'full_address', 'first_name', 'last_name',
+        'phone_number', 'company_name', 'zip_code', 'is_active', 'date_joined'
+    )
     readonly_fields = ('date_joined',)
 
+    def requests(self, obj):
+        return obj.solarinfo_set.count()
+
+    def customers(self, obj):
+        return obj.solarinfo_set.aggregate(counts=Count('customer'))['counts']
+
     def get_queryset(self, request):
-        return super().get_queryset(request).filter(is_staff=False)
+        return super().get_queryset(request).filter(is_superuser=False)
 
     def save_model(self, request, obj, form, change):
         if not obj.pk:

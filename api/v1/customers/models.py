@@ -3,15 +3,22 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Customer(models.Model):
-    client = models.ForeignKey('accounts.CustomUser', on_delete=models.CASCADE)
+    STATUS = ((1, 'new'), (2, 'process'), (3, 'cancelled'), (4, 'success'))
+
     solar_info = models.ForeignKey('solarapiinfos.SolarInfo', on_delete=models.PROTECT)
+    solar_panel = models.ForeignKey('services.SolarPanel', on_delete=models.PROTECT, null=True)
+    extra_product = models.ForeignKey('services.ExtraProduct', on_delete=models.PROTECT, null=True)
 
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
+    full_name = models.CharField(max_length=255)
     email = models.EmailField()
-    phone_number = PhoneNumberField()
-    address = models.CharField(max_length=255)
+    phone_number = PhoneNumberField(null=True, blank=True)
     city = models.CharField(max_length=255)
-    zip_code = models.PositiveSmallIntegerField()
+    full_address = models.CharField(max_length=255, blank=True)
+    zip_code = models.PositiveSmallIntegerField(null=True)
 
-    joined_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    status = models.PositiveSmallIntegerField(choices=STATUS, default=STATUS[0][0])
+
+    def __str__(self):
+        return self.full_name

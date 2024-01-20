@@ -2,10 +2,10 @@ import requests
 from django.conf import settings
 
 
-def get_solar_api_info(latitude, longitude, required_quality):
+def get_solar_api_info(latitude, longitude):
     params = {
         'key': settings.SOLAR_API_KEY,
-        'requiredQuality': required_quality,
+        'requiredQuality': settings.SOLAR_API_REQUIRED_QUALITY,
         'location.latitude': latitude,
         'location.longitude': longitude
     }
