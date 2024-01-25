@@ -50,6 +50,8 @@ class SolarInfoAPIView(GenericAPIView):
         data['object_id'] = obj.pk
         client_solar_panels = SolarPanel.objects.filter(client_id=client.pk)[:settings.CLIENT_MAX_SERVICES]
         client_extra_products = ExtraProduct.objects.filter(client_id=client.pk)[:settings.CLIENT_MAX_SERVICES]
-        data['client_solar_panels'] = SolarPanelSerializer(client_solar_panels, many=True).data
-        data['client_extra_products'] = ExtraProductSerializer(client_extra_products, many=True).data
+        data['client_solar_panels'] = SolarPanelSerializer(client_solar_panels, context={'request': request},
+                                                           many=True).data
+        data['client_extra_products'] = ExtraProductSerializer(client_extra_products, context={'request': request},
+                                                               many=True).data
         return Response(data=data, status=status.HTTP_200_OK)
