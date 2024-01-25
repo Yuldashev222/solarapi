@@ -24,3 +24,6 @@ class CustomerAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         return super().get_queryset(request).filter(solar_info__client_id=request.user.pk)
+
+    def has_module_permission(self, request):
+        return not request.user.is_superuser and request.user.has_module_perms(self.opts.app_label)

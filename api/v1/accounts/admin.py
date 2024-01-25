@@ -1,13 +1,7 @@
-from django.conf import settings
 from django.contrib import admin
 from django.db.models import Count
-from django.contrib.auth.models import Group
 
 from api.v1.accounts.models import CustomUser
-
-admin.site.unregister(Group)
-
-admin.site.site_header = settings.ADMIN_SITE_HEADER
 
 
 @admin.register(CustomUser)

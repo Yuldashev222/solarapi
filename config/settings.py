@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'rest_framework',
 
+    'api.v1.general.apps.GeneralConfig',
     'api.v1.accounts.apps.AccountsConfig',
     'api.v1.customers.apps.CustomersConfig',
     'api.v1.services.apps.ServicesConfig',

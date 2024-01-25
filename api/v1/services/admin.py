@@ -16,6 +16,9 @@ class ServiceAbstractAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return not request.user.is_superuser
 
+    def has_module_permission(self, request):
+        return not request.user.is_superuser and request.user.has_module_perms(self.opts.app_label)
+
 
 @admin.register(SolarPanel)
 class SolarPanelAdmin(ServiceAbstractAdmin):
