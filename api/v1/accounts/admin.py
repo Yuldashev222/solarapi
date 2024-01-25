@@ -10,6 +10,7 @@ class CustomUserAdmin(admin.ModelAdmin):
         'domain', 'company_name', 'requests',
         'customers', 'email', 'first_name', 'last_name', 'is_active'
     )
+    list_filter = ('is_active',)
     list_display_links = ('domain', 'email', 'first_name', 'last_name')
     search_fields = ('domain', 'email', 'first_name', 'last_name')
 

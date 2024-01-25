@@ -16,6 +16,8 @@ class CustomerAdmin(admin.ModelAdmin):
         'created_at',
     )
     list_display_links = list_display
+    list_filter = ('status', 'created_at')
+    search_fields = ('full_name', 'phone_number', 'email', 'full_address')
 
     readonly_fields = ('solar_info',)
 
