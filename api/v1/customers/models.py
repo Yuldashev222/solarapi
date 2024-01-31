@@ -15,6 +15,7 @@ class Customer(models.Model):
     city = models.CharField(max_length=255)
     full_address = models.CharField(max_length=255, blank=True)
     zip_code = models.PositiveSmallIntegerField(null=True)
+    panel_counts = models.PositiveSmallIntegerField()
 
     created_at = models.DateTimeField(auto_now_add=True)
 
