@@ -15,7 +15,7 @@ class SolarInfoAPIView(GenericAPIView):
     def get(self, request, *args, **kwargs):
         client_id = request.query_params.get('client_id')
         domain = request.query_params.get('domain')
-        if domain is None or client_id is None or not isinstance(int, client_id):
+        if domain is None or client_id is None or not isinstance(client_id, int):
             raise AuthenticationFailed({'error': 'authentication failed'})
 
         try:
