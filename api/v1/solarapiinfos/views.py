@@ -17,17 +17,17 @@ class SolarInfoAPIView(GenericAPIView):
         for i, j in request.META.items():
             if i in ['SERVER_NAME', 'REMOTE_ADDR', 'HTTP_HOST', 'HTTP_ORIGIN']:
                 temp_test[i] = j
-        client_id = request.query_params.get('client_id')
-        if client_id is None or not isinstance(client_id, int):
+        customer_id = request.query_params.get('customer_id')
+        if customer_id is None or not customer_id.isdigit():
             raise AuthenticationFailed({'error': 'authentication failed'})
 
-        try:
-            client = Client.objects.get(pk=client_id, is_active=True)
-        except Client.DoesNotExist:
-            raise AuthenticationFailed({'error': 'authentication failed'})
-
-        if not client_limit_exists(client_id=client.pk):
+        if not client_limit_exists(customer_id=customer_id):
             raise PermissionDenied({'error': 'denied access'})
+
+        # try:
+        #     client = Client.objects.get_or_create(domain=customer_id, is_active=True)
+        # except Client.DoesNotExist:
+        #     raise AuthenticationFailed({'error': 'authentication failed'})
 
         longitude = request.query_params.get('location.longitude')
         latitude = request.query_params.get('location.latitude')
@@ -43,15 +43,15 @@ class SolarInfoAPIView(GenericAPIView):
         else:
             solar_api_longitude = None
             solar_api_latitude = None
+        #
+        # obj = SolarInfo.objects.create(client_id=client.pk,
+        #                                customer_longitude=longitude,
+        #                                customer_latitude=latitude,
+        #                                solar_api_longitude=solar_api_longitude,
+        #                                solar_api_latitude=solar_api_latitude,
+        #                                required_quality=settings.SOLAR_API_REQUIRED_QUALITY,
+        #                                success=bool(solar_api_center))
 
-        obj = SolarInfo.objects.create(client_id=client.pk,
-                                       customer_longitude=longitude,
-                                       customer_latitude=latitude,
-                                       solar_api_longitude=solar_api_longitude,
-                                       solar_api_latitude=solar_api_latitude,
-                                       required_quality=settings.SOLAR_API_REQUIRED_QUALITY,
-                                       success=bool(solar_api_center))
-
-        data['object_id'] = obj.pk
+        # data['object_id'] = obj.pk
         data['temp_test'] = temp_test
         return Response(data=data, status=status.HTTP_200_OK)
