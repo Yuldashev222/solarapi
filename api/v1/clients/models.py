@@ -26,6 +26,6 @@ class Client(models.Model):
             raise ValidationError({"domain": ["Invalid domain"]})
 
     def save(self, *args, **kwargs):
-        self.domain = ''.join(self.domain.split()).lower()  # last
+        self.domain = ''.join(self.domain.split()).lower()
         super().save(*args, **kwargs)
 
