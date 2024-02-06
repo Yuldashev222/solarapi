@@ -1,13 +1,11 @@
-import validators
 from django.conf import settings
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from rest_framework.exceptions import AuthenticationFailed, ValidationError
+from rest_framework.exceptions import AuthenticationFailed, ValidationError, PermissionDenied
 
-from api.v1.accounts.models import CustomUser
-from api.v1.services.models import SolarPanel, ExtraProduct
-from api.v1.services.serializers import SolarPanelSerializer, ExtraProductSerializer
+from api.v1.clients.models import Client
+from api.v1.clients.validators import client_limit_exists
 from api.v1.solarapiinfos.models import SolarInfo
 from api.v1.solarapiinfos.services import get_solar_api_info
 
@@ -15,14 +13,18 @@ from api.v1.solarapiinfos.services import get_solar_api_info
 class SolarInfoAPIView(GenericAPIView):
 
     def get(self, request, *args, **kwargs):
+        client_id = request.query_params.get('client_id')
         domain = request.query_params.get('domain')
-        if domain is None:  # or not validators.domain(domain):
+        if domain is None or client_id is None or not isinstance(int, client_id):
             raise AuthenticationFailed({'error': 'authentication failed'})
 
         try:
-            client = CustomUser.objects.get(domain=domain, is_active=True, is_superuser=False)
-        except CustomUser.DoesNotExist:
+            client = Client.objects.get(pk=client_id, domain=domain, is_active=True)
+        except Client.DoesNotExist:
             raise AuthenticationFailed({'error': 'authentication failed'})
+
+        if not client_limit_exists(client_id=client.pk):
+            raise PermissionDenied({'error': 'denied access'})
 
         longitude = request.query_params.get('location.longitude')
         latitude = request.query_params.get('location.latitude')
@@ -48,10 +50,4 @@ class SolarInfoAPIView(GenericAPIView):
                                        success=bool(solar_api_center))
 
         data['object_id'] = obj.pk
-        client_solar_panels = SolarPanel.objects.filter(client_id=client.pk)[:settings.CLIENT_MAX_SERVICES]
-        client_extra_products = ExtraProduct.objects.filter(client_id=client.pk)[:settings.CLIENT_MAX_SERVICES]
-        data['client_solar_panels'] = SolarPanelSerializer(client_solar_panels, context={'request': request},
-                                                           many=True).data
-        data['client_extra_products'] = ExtraProductSerializer(client_extra_products, context={'request': request},
-                                                               many=True).data
         return Response(data=data, status=status.HTTP_200_OK)

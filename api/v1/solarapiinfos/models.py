@@ -2,7 +2,7 @@ from django.db import models
 
 
 class SolarInfo(models.Model):
-    client = models.ForeignKey('accounts.CustomUser', on_delete=models.PROTECT)
+    client = models.ForeignKey('clients.Client', on_delete=models.PROTECT)
 
     customer_latitude = models.FloatField()
     customer_longitude = models.FloatField()
@@ -16,3 +16,4 @@ class SolarInfo(models.Model):
 
     def __str__(self):
         return f'( {self.customer_latitude} X {self.customer_longitude} )'
+

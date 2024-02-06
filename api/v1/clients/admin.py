@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.db.models import Count
 
-from api.v1.accounts.models import CustomUser
+from api.v1.clients.models import Client
 
 
-@admin.register(CustomUser)
-class CustomUserAdmin(admin.ModelAdmin):
+@admin.register(Client)
+class ClientAdmin(admin.ModelAdmin):
     list_display = (
         'domain', 'company_name', 'requests',
         'customers', 'email', 'first_name', 'last_name', 'is_active'
@@ -16,9 +16,9 @@ class CustomUserAdmin(admin.ModelAdmin):
 
     fields = (
         'domain', 'email', 'password', 'country', 'city', 'full_address', 'first_name', 'last_name',
-        'phone_number', 'company_name', 'zip_code', 'is_active', 'date_joined'
+        'phone_number', 'company_name', 'zip_code', 'is_active', 'created_at'
     )
-    readonly_fields = ('date_joined',)
+    readonly_fields = ('created_at',)
 
     def requests(self, obj):
         return obj.solarinfo_set.count()
@@ -32,6 +32,6 @@ class CustomUserAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         if not obj.pk:
             obj.set_password(obj.password)
-        elif obj.password != CustomUser.objects.get(pk=obj.pk).password:
+        elif obj.password != Client.objects.get(pk=obj.pk).password:
             obj.set_password(obj.password)
         super().save_model(request, obj, form, change)

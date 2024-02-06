@@ -10,4 +10,4 @@ whitenoise==6.6.0
 django-debug-toolbar==4.2.0
 drf-yasg==1.21.7
 django-cors-headers==4.3.1
-django-jazzmin==2.6.0
+mysql-connector-python==8.3.0
