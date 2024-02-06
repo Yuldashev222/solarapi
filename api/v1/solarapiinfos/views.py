@@ -13,13 +13,16 @@ from api.v1.solarapiinfos.services import get_solar_api_info
 class SolarInfoAPIView(GenericAPIView):
 
     def get(self, request, *args, **kwargs):
+        temp_test = {}
+        for i, j in request.META.items():
+            if i in ['SERVER_NAME', 'REMOTE_ADDR', 'HTTP_HOST', 'HTTP_ORIGIN']:
+                temp_test[i] = j
         client_id = request.query_params.get('client_id')
-        domain = request.query_params.get('domain')
-        if domain is None or client_id is None or not isinstance(client_id, int):
+        if client_id is None or not isinstance(client_id, int):
             raise AuthenticationFailed({'error': 'authentication failed'})
 
         try:
-            client = Client.objects.get(pk=client_id, domain=domain, is_active=True)
+            client = Client.objects.get(pk=client_id, is_active=True)
         except Client.DoesNotExist:
             raise AuthenticationFailed({'error': 'authentication failed'})
 
@@ -50,4 +53,5 @@ class SolarInfoAPIView(GenericAPIView):
                                        success=bool(solar_api_center))
 
         data['object_id'] = obj.pk
+        data['temp_test'] = temp_test
         return Response(data=data, status=status.HTTP_200_OK)
