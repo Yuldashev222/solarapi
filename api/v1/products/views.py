@@ -7,7 +7,7 @@ from api.v1.products.serializers import ProductSerializer
 
 class ProductViewSet(viewsets.ModelViewSet):
     client_id = None
-    permission_classes = (IsMYSQLUser,)
+    # permission_classes = (IsMYSQLUser,)
     serializer_class = ProductSerializer
 
     def get_queryset(self):

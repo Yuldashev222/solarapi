@@ -7,7 +7,7 @@ from api.v1.services.serializers import ServiceSerializer
 
 class ServiceViewSet(viewsets.ModelViewSet):
     client_id = None
-    permission_classes = (IsMYSQLUser,)
+    # permission_classes = (IsMYSQLUser,)
     serializer_class = ServiceSerializer
 
     def get_queryset(self):
