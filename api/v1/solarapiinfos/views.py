@@ -1,4 +1,6 @@
+import validators
 from django.conf import settings
+from urllib.parse import urlparse
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -13,8 +15,10 @@ class SolarInfoAPIView(GenericAPIView):
 
     def get(self, request, *args, **kwargs):
         mysql_user_id = request.query_params.get('user_id')
-        domain = request.META.get('HTTP_ORIGIN')
-        if domain is None or mysql_user_id is None or not mysql_user_id.isdigit():
+        parsed_url = urlparse(request.build_absolute_uri())
+        domain = parsed_url.netloc
+
+        if validators.domain(domain) is not True or mysql_user_id is None or not mysql_user_id.isdigit():
             raise AuthenticationFailed({'error': f'authentication failed {domain}'})
 
         if not client_exists(mysql_user_id=mysql_user_id, domain=domain):
