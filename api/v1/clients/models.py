@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
 
-class Customer(models.Model):
+class Client(models.Model):
     mysql_id = models.PositiveBigIntegerField()
     first_name = models.CharField(_('First Name'), max_length=255, blank=True)
     last_name = models.CharField(_('Last Name'), max_length=255, blank=True)

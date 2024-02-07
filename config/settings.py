@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'api.v1.general.apps.GeneralConfig',
-    'api.v1.customers.apps.CustomersConfig',
+    'api.v1.clients.apps.ClientsConfig',
     'api.v1.solarapiinfos.apps.SolarapiinfosConfig',
 
 ]

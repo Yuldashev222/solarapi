@@ -4,7 +4,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed, ValidationError, PermissionDenied
 
-from api.v1.customers.validators import client_limit_exists, client_exists
+from api.v1.clients.validators import client_limit_exists, client_exists
 from api.v1.solarapiinfos.models import SolarInfo
 from api.v1.solarapiinfos.services import get_solar_api_info
 
