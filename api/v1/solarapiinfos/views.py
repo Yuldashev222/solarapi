@@ -44,6 +44,7 @@ class SolarInfoAPIView(GenericAPIView):
 
         if not client_limit_exists(mysql_user_id=mysql_user_id):
             error_temp['code'] = 403
+            error_temp['message'] += ' limit yoq'
             raise PermissionDenied(error_temp)
 
         data = get_solar_api_info(longitude=longitude, latitude=latitude)
