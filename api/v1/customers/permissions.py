@@ -4,7 +4,7 @@ from rest_framework import permissions
 from api.v1.clients.validators import client_exists
 
 
-class IsMYQLUser(permissions.BasePermission):
+class IsMYSQLUser(permissions.BasePermission):
     def has_permission(self, request, view):
         view.client_id = request.query_params.get('client_id')
         view.domain = str(request.META.get("HTTP_ORIGIN")
