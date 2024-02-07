@@ -1,6 +1,5 @@
 import validators
 from django.conf import settings
-from urllib.parse import urlparse
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -26,9 +25,7 @@ class SolarInfoAPIView(GenericAPIView):
         mysql_user_id = request.query_params.get('user_id')
         longitude = request.query_params.get('location.longitude')
         latitude = request.query_params.get('location.latitude')
-
-        parsed_url = urlparse(request.build_absolute_uri())
-        domain = parsed_url.netloc
+        domain = request.META.get("HTTP_ORIGIN")
 
         if validators.domain(domain) is not True or mysql_user_id is None or not mysql_user_id.isdigit():
             raise AuthenticationFailed(error_temp)
