@@ -3,7 +3,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Customer(models.Model):
-    STATUS = [(0, 'New'), (2, 'Completed'), (3, 'Rejected')]
+    STATUS = [(0, 'New'), (1, 'Completed'), (2, 'Rejected')]
 
     mysql_user_id = models.PositiveBigIntegerField()
 
