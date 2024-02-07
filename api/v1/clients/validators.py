@@ -15,7 +15,7 @@ def client_exists(mysql_user_id, domain):
     user_table = settings.MYSQL_USER_TABLE
     if connection.is_connected():
         cursor = connection.cursor()
-        query = f'SELECT EXISTS (SELECT * FROM {user_table} WHERE ID = {mysql_user_id} AND domain = {domain})'
+        query = f'SELECT EXISTS (SELECT * FROM {user_table} WHERE ID = {mysql_user_id} AND domain = "{domain}")'
 
         cursor.execute(query)
         temp = cursor.fetchone()
