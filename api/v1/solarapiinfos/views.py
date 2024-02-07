@@ -25,7 +25,7 @@ class SolarInfoAPIView(GenericAPIView):
         mysql_user_id = request.query_params.get('user_id')
         longitude = request.query_params.get('location.longitude')
         latitude = request.query_params.get('location.latitude')
-        domain = request.META.get("HTTP_ORIGIN")
+        domain = str(request.META.get("HTTP_ORIGIN")).replace('https://', '').replace('http://', '').replace('/', '')
 
         if validators.domain(domain) is not True or mysql_user_id is None or not mysql_user_id.isdigit():
             raise AuthenticationFailed(error_temp)
