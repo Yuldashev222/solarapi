@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'api.v1.general.apps.GeneralConfig',
-    'api.v1.clients.apps.ClientsConfig',
+    'api.v1.customers.apps.CustomersConfig',
     'api.v1.solarapiinfos.apps.SolarapiinfosConfig',
 
 ]
@@ -170,6 +170,9 @@ CORS_ALLOWED_ORIGINS = [
 MYSQL_HOST = os.environ.get('MYSQL_HOST')
 MYSQL_USER = os.environ.get('MYSQL_USER')
 MYSQL_PASSWORD = os.environ.get('MYSQL_PASSWORD')
-MYSQL_DATABASE_NAME = os.environ.get('MYSQL_DATABASE_NAME')
-MYSQL_ORDER_TABLE_NAME = os.environ.get('MYSQL_ORDER_TABLE_NAME')
+MYSQL_DATABASE = os.environ.get('MYSQL_DATABASE')
+MYSQL_ORDER_TABLE = os.environ.get('MYSQL_ORDER_TABLE')
+MYSQL_USER_TABLE = os.environ.get('MYSQL_USER_TABLE')
+MYSQL_CUSTOMER_TABLE = os.environ.get('MYSQL_CUSTOMER_TABLE')
+MYSQL_PRODUCT_TABLE = os.environ.get('MYSQL_PRODUCT_TABLE')
 ORDER_EXPIRE_DAYS = int(os.environ.get('ORDER_EXPIRE_DAYS'))

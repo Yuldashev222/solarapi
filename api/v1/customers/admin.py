@@ -1,11 +1,10 @@
 from django.contrib import admin
-from django.db.models import Count
 
-from api.v1.clients.models import Client
+from api.v1.customers.models import Customer
 
 
-@admin.register(Client)
-class ClientAdmin(admin.ModelAdmin):
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
     list_display = (
         'domain', 'company_name', 'requests', 'email', 'first_name', 'last_name', 'is_active'
     )
