@@ -15,7 +15,7 @@ class SolarInfoAPIView(GenericAPIView):
         mysql_user_id = request.query_params.get('user_id')
         domain = request.META.get('HTTP_ORIGIN')
         if domain is None or mysql_user_id is None or not mysql_user_id.isdigit():
-            raise AuthenticationFailed({'error': 'authentication failed'})
+            raise AuthenticationFailed({'error': f'authentication failed {domain}'})
 
         if not client_exists(mysql_user_id=mysql_user_id, domain=domain):
             raise AuthenticationFailed({'error': 'authentication failed'})
