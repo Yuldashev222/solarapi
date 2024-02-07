@@ -26,7 +26,7 @@ def client_exists(mysql_user_id, domain):
 
 
 def client_limit_exists(mysql_user_id):
-    solar_api_requests = SolarInfo.objects.filter(mysql_user_id=mysql_user_id).count()
+    solar_api_requests = SolarInfo.objects.filter(mysql_user_id=mysql_user_id, success=True).count()
     connection = mysql.connector.connect(host=settings.MYSQL_HOST, user=settings.MYSQL_USER,
                                          password=settings.MYSQL_PASSWORD, database=settings.MYSQL_DATABASE)
 
