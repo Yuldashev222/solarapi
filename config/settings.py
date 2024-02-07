@@ -36,7 +36,10 @@ INSTALLED_APPS = [
 
     'api.v1.general.apps.GeneralConfig',
     'api.v1.clients.apps.ClientsConfig',
+    'api.v1.customers.apps.CustomersConfig',
     'api.v1.solarapiinfos.apps.SolarapiinfosConfig',
+    'api.v1.services.apps.ServicesConfig',
+    'api.v1.products.apps.ProductsConfig',
 
 ]
 
