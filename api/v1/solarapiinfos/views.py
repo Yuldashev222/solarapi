@@ -6,8 +6,10 @@ from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed, ValidationError, PermissionDenied
 
 from api.v1.products.models import Product
+from api.v1.products.serializers import ProductSerializer
 from api.v1.services.models import Service
 from api.v1.clients.validators import client_limit_exists, client_exists
+from api.v1.services.serializers import ServiceSerializer
 from api.v1.solarapiinfos.models import SolarInfo
 from api.v1.solarapiinfos.services import get_solar_api_info
 
@@ -67,6 +69,6 @@ class SolarInfoAPIView(GenericAPIView):
                                        success=success)
 
         data['object_id'] = obj.pk
-        data['services'] = Service.objects.filter(mysql_user_id=mysql_user_id)
-        data['products'] = Product.objects.filter(mysql_user_id=mysql_user_id)
+        data['services'] = ServiceSerializer(Service.objects.filter(mysql_user_id=mysql_user_id), many=True).data
+        data['products'] = ProductSerializer(Product.objects.filter(mysql_user_id=mysql_user_id), many=True).data
         return Response(data=data, status=status.HTTP_200_OK)
