@@ -12,6 +12,11 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         exclude = ['mysql_user_id']
 
+    def validate_solar_info(self, solar_info):
+        if solar_info.mysql_user_id != int(self.context['view'].client_id):
+            raise ValidationError(['solar info not found'])
+        return solar_info
+
     def validate_services(self, services):
         if len(services) > settings.SERVICE_LIMIT:
             raise ValidationError(['Service limit exceeded'])
