@@ -5,7 +5,7 @@ class Order(models.Model):
     STATUS = [(0, 'New'), (1, 'Completed'), (2, 'Rejected')]
 
     mysql_user_id = models.PositiveBigIntegerField()
-    solar_info = models.ForeignKey('solarapiinfos.SolarInfo', unique=True, on_delete=models.CASCADE)
+    solar_info = models.OneToOneField('solarapiinfos.SolarInfo', on_delete=models.CASCADE)
 
     email = models.EmailField()
     first_name = models.CharField(max_length=255)

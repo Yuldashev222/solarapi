@@ -188,5 +188,7 @@ CELERY_BROKER_URL = 'redis://localhost:6379/0'
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'api.v1.clients.permissions.IsMYSQLClient',
-    )
+    ),
+    'PAGE_SIZE': 10
+
 }
