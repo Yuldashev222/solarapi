@@ -2,7 +2,6 @@ from rest_framework import viewsets
 
 from api.v1.orders.models import Order
 from api.v1.orders.serializers import OrderSerializer
-from api.v1.orders.tasks import send_email_order_accepted
 
 
 class OrderViewSet(viewsets.ModelViewSet):

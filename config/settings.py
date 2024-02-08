@@ -139,6 +139,9 @@ CLIENT_APPS = ['customers', 'services', 'solarapiinfos']
 CLIENT_MAX_SERVICES = 10
 ADMIN_SITE_HEADER = 'Suncount.io'
 
+SERVICE_LIMIT = 20
+PRODUCT_LIMIT = 20
+
 # smtp configs
 EMAIL_USE_TLS = True
 EMAIL_HOST = os.environ.get('EMAIL_HOST')

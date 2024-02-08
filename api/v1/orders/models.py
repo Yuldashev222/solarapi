@@ -16,8 +16,8 @@ class Order(models.Model):
     city = models.CharField(max_length=255, blank=True)
     panel_counts = models.PositiveSmallIntegerField()
 
-    services = models.ManyToManyField('services.Service')
-    products = models.ManyToManyField('products.Product')
+    services = models.ManyToManyField('services.Service', blank=True)
+    products = models.ManyToManyField('products.Product', blank=True)
 
     status = models.PositiveSmallIntegerField(choices=STATUS, default=STATUS[0][0])
 
