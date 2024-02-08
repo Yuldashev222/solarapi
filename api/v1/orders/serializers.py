@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
-from api.v1.customers.models import Customer
+from api.v1.orders.models import Order
 
 
-class CustomerSerializer(serializers.ModelSerializer):
+class OrderSerializer(serializers.ModelSerializer):
     status_name = serializers.CharField(source='get_status_display', read_only=True)
 
     class Meta:
-        model = Customer
+        model = Order
         exclude = ['mysql_user_id']

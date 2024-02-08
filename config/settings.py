@@ -36,7 +36,7 @@ INSTALLED_APPS = [
 
     'api.v1.general.apps.GeneralConfig',
     'api.v1.clients.apps.ClientsConfig',
-    'api.v1.customers.apps.CustomersConfig',
+    'api.v1.orders.apps.OrdersConfig',
     'api.v1.solarapiinfos.apps.SolarapiinfosConfig',
     'api.v1.services.apps.ServicesConfig',
     'api.v1.products.apps.ProductsConfig',
@@ -179,3 +179,11 @@ MYSQL_USER_TABLE = os.environ.get('MYSQL_USER_TABLE')
 MYSQL_CUSTOMER_TABLE = os.environ.get('MYSQL_CUSTOMER_TABLE')
 MYSQL_PRODUCT_TABLE = os.environ.get('MYSQL_PRODUCT_TABLE')
 ORDER_EXPIRE_DAYS = int(os.environ.get('ORDER_EXPIRE_DAYS'))
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'api.v1.clients.permissions.IsMYSQLClient',
+    )
+}

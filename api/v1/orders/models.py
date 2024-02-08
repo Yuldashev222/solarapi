@@ -1,22 +1,23 @@
 from django.db import models
-from phonenumber_field.modelfields import PhoneNumberField
 
 
-class Customer(models.Model):
+class Order(models.Model):
     STATUS = [(0, 'New'), (1, 'Completed'), (2, 'Rejected')]
 
     mysql_user_id = models.PositiveBigIntegerField()
+    solar_info = models.ForeignKey('solarapiinfos.SolarInfo', on_delete=models.SET_NULL, null=True)
 
     email = models.EmailField()
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255, blank=True)
-    phone_number = PhoneNumberField(null=True)
+    phone_number = models.CharField(max_length=100, blank=True)
     address = models.CharField(max_length=255, blank=True)
     zip_code = models.PositiveSmallIntegerField(null=True)
     city = models.CharField(max_length=255, blank=True)
     panel_counts = models.PositiveSmallIntegerField()
-    service = models.ForeignKey('services.Service', models.SET_NULL, null=True)
-    product = models.ForeignKey('products.Product', models.SET_NULL, null=True)
+
+    services = models.ManyToManyField('services.Service')
+    products = models.ManyToManyField('products.Product')
 
     status = models.PositiveSmallIntegerField(choices=STATUS, default=STATUS[0][0])
 
