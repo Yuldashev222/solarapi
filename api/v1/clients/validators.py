@@ -50,9 +50,9 @@ def client_limit_exists(mysql_user_id):
         cursor.close()
         connection.close()
         bol = temp[0] > solar_api_requests
-        if bol:
-            send_message_on_less_limit.delay(mysql_user_id=mysql_user_id,
-                                             request_counts=solar_api_requests,
-                                             limit=temp[0])
+        # if bol:
+        #     send_message_on_less_limit.delay(mysql_user_id=mysql_user_id,
+        #                                      request_counts=solar_api_requests,
+        #                                      limit=temp[0])
         return bol
     return False

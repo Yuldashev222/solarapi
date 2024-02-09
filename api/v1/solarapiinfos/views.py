@@ -2,11 +2,11 @@ from django.conf import settings
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from rest_framework.exceptions import AuthenticationFailed, ValidationError, PermissionDenied
+from rest_framework.exceptions import ValidationError, PermissionDenied
 
 from api.v1.products.models import Product
 from api.v1.services.models import Service
-from api.v1.clients.validators import client_limit_exists, client_exists
+from api.v1.clients.validators import client_limit_exists
 from api.v1.solarapiinfos.models import SolarInfo
 from api.v1.services.serializers import ServiceSerializer
 from api.v1.products.serializers import ProductSerializer
