@@ -35,9 +35,6 @@ class SolarInfoAPIView(GenericAPIView):
             error_temp['status'] = status.HTTP_400_BAD_REQUEST
             raise ValidationError(error_temp)
 
-        if not client_exists(mysql_user_id=self.client_id, domain=self.domain):
-            raise AuthenticationFailed(error_temp)
-
         if not client_limit_exists(mysql_user_id=self.client_id):
             error_temp['code'] = 403
             error_temp['message'] += ' limit yoq'

@@ -6,7 +6,7 @@ from api.v1.clients.validators import client_exists
 
 class IsMYSQLClient(permissions.BasePermission):
     def has_permission(self, request, view):
-        view.client_id = request.query_params.get('client_id')
+        view.client_id = request.query_params.get('user_id')
         view.domain = str(request.META.get("HTTP_ORIGIN")
                           ).replace('https://', '').replace('http://', '').replace('/', '')
         return True
