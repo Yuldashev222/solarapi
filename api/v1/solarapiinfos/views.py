@@ -1,8 +1,9 @@
 from django.conf import settings
 from rest_framework import status
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError, PermissionDenied
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from api.v1.products.models import Product
 from api.v1.services.models import Service
@@ -10,6 +11,7 @@ from api.v1.clients.validators import client_limit_exists
 from api.v1.solarapiinfos.models import SolarInfo
 from api.v1.services.serializers import ServiceSerializer
 from api.v1.products.serializers import ProductSerializer
+from api.v1.solarapiinfos.serializers import SolarInfoSerializer
 from api.v1.solarapiinfos.services import get_solar_api_info
 
 error_temp = {
@@ -21,11 +23,16 @@ error_temp = {
 }
 
 
-class SolarInfoAPIView(GenericAPIView):
+class SolarInfoAPIView(ReadOnlyModelViewSet):
     domain = None
     client_id = None
 
-    def get(self, request, *args, **kwargs):
+    def retrieve(self, request, *args, **kwargs):
+        queryset = SolarInfo.objects.filter(mysql_user_id=self.client_id)
+        instance = get_object_or_404(queryset, pk=self.kwargs['pk'])
+        return Response(SolarInfoSerializer(instance).data)
+
+    def list(self, request, *args, **kwargs):
         longitude = request.query_params.get('location.longitude')
         latitude = request.query_params.get('location.latitude')
 
@@ -41,23 +48,8 @@ class SolarInfoAPIView(GenericAPIView):
             raise PermissionDenied(error_temp)
 
         data = get_solar_api_info(longitude=longitude, latitude=latitude)
-        solar_api_center = data.get('center')
-        if solar_api_center is not None:
-            solar_api_longitude = solar_api_center['longitude']
-            solar_api_latitude = solar_api_center['latitude']
-            success = True
-        else:
-            solar_api_longitude = None
-            solar_api_latitude = None
-            success = False
-
-        obj = SolarInfo.objects.create(mysql_user_id=self.client_id,
-                                       customer_longitude=longitude,
-                                       customer_latitude=latitude,
-                                       solar_api_longitude=solar_api_longitude,
-                                       solar_api_latitude=solar_api_latitude,
-                                       required_quality=settings.SOLAR_API_REQUIRED_QUALITY,
-                                       success=success)
+        obj = SolarInfo.objects.create(mysql_user_id=self.client_id, json_data=str(data),
+                                       success=bool(data.get('center')))
 
         data['object_id'] = obj.pk
         data['services'] = ServiceSerializer(Service.objects.filter(mysql_user_id=self.client_id), many=True).data
