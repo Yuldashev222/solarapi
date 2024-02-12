@@ -15,5 +15,6 @@ class OrderViewSet(viewsets.ModelViewSet):
         return Order.objects.filter(mysql_user_id=self.client_id)
 
     def perform_create(self, serializer):
-        serializer.save(status=Order.STATUS[0][0], mysql_user_id=self.client_id)
+        serializer.save(order_id=Order.generate_unique_order_id(),
+                        status=Order.STATUS[0][0], mysql_user_id=self.client_id)
         # send_message_on_new_order.delay(mysql_user_id=self.client_id)

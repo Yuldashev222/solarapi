@@ -11,6 +11,9 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         exclude = ['mysql_user_id']
+        extra_kwargs = {
+            'order_id': {'read_only': True}
+        }
 
     def validate_solar_info(self, solar_info):
         if solar_info.mysql_user_id != int(self.context['view'].client_id):
