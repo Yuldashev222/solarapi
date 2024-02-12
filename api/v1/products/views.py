@@ -12,7 +12,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
 
     def get_queryset(self):
-        return Product.objects.filter(mysql_user_id=self.client_id)
+        return Product.objects.filter(mysql_user_id=self.client_id).order_by('-id')
 
     def perform_create(self, serializer):
         serializer.save(mysql_user_id=self.client_id)

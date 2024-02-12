@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'phonenumber_field',
     'rest_framework',
+    'django_filters',
 
     'api.v1.general.apps.GeneralConfig',
     'api.v1.clients.apps.ClientsConfig',

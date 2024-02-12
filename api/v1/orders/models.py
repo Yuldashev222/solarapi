@@ -33,8 +33,8 @@ class Order(models.Model):
         return f'{self.first_name} {self.last_name}'
 
     @classmethod
-    def generate_unique_order_id(cls):
+    def generate_unique_order_id(cls, mysql_user_id):
         while True:
             value = ''.join(secrets.choice(string.digits) for _ in range(5))
-            if not Order.objects.filter(order_id=value).exists():
+            if not Order.objects.filter(order_id=value, mysql_user_id=mysql_user_id).exists():
                 return value

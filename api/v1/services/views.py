@@ -12,7 +12,7 @@ class ServiceViewSet(viewsets.ModelViewSet):
     serializer_class = ServiceSerializer
 
     def get_queryset(self):
-        return Service.objects.filter(mysql_user_id=self.client_id)
+        return Service.objects.filter(mysql_user_id=self.client_id).order_by('-id')
 
     def perform_create(self, serializer):
         serializer.save(mysql_user_id=self.client_id)
