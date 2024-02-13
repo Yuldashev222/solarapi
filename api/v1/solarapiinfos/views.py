@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError, PermissionDenied
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from api.v1.clients.services import get_client_discount
+from api.v1.clients.services import get_client_discounts
 from api.v1.products.models import Product
 from api.v1.services.models import Service
 from api.v1.clients.validators import client_limit_exists
@@ -53,7 +53,7 @@ class SolarInfoAPIView(ReadOnlyModelViewSet):
                                        success=bool(data.get('center')))
 
         data['object_id'] = obj.pk
-        data['discount'] = get_client_discount(mysql_user_id=self.client_id)
+        data['discount_product'], data['discount_service'] = get_client_discounts(mysql_user_id=self.client_id)
         data['services'] = ServiceSerializer(Service.objects.filter(mysql_user_id=self.client_id), many=True,
                                              context={'request': request}).data
         data['products'] = ProductSerializer(Product.objects.filter(mysql_user_id=self.client_id), many=True,
