@@ -1,3 +1,4 @@
+from django.core.validators import MaxValueValidator
 from django.db import models
 
 
@@ -8,6 +9,7 @@ class Service(models.Model):
     desc = models.TextField(max_length=1555, blank=True)
     image = models.ImageField(upload_to='services/', null=True)
     price = models.FloatField(default=0)
+    discount_percent = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(100)])
 
     def __str__(self):
         return self.name
