@@ -27,7 +27,7 @@ def get_client_discounts(mysql_user_id):
     user_table = settings.MYSQL_USER_TABLE
     if connection.is_connected():
         cursor = connection.cursor()
-        query = f'SELECT discount_name, discount_percent, discount_max_price, discount_service FROM {user_table} WHERE ID = {mysql_user_id}'
+        query = f'SELECT discount_name, discount_percent, discount_max_price, discount_service_name, discount_service, discount_service_max_price FROM {user_table} WHERE ID = {mysql_user_id}'
         cursor.execute(query)
         temp = cursor.fetchone()
         cursor.close()
@@ -38,7 +38,10 @@ def get_client_discounts(mysql_user_id):
             'max_price': temp[2],
         }
         discount_service = {
-            'percent': temp[3]
+            'name': temp[3],
+            'percent': temp[4],
+            'max_price': temp[5],
+
         }
         if discount_service['percent'] is None:
             discount_service = None
