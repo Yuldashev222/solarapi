@@ -52,6 +52,8 @@ class SolarInfoAPIView(ReadOnlyModelViewSet):
                                        success=bool(data.get('center')))
 
         data['object_id'] = obj.pk
-        data['services'] = ServiceSerializer(Service.objects.filter(mysql_user_id=self.client_id), many=True).data
-        data['products'] = ProductSerializer(Product.objects.filter(mysql_user_id=self.client_id), many=True).data
+        data['services'] = ServiceSerializer(Service.objects.filter(mysql_user_id=self.client_id), many=True,
+                                             context={'request': request}).data
+        data['products'] = ProductSerializer(Product.objects.filter(mysql_user_id=self.client_id), many=True,
+                                             context={'request': request}).data
         return Response(data=data, status=status.HTTP_200_OK)
