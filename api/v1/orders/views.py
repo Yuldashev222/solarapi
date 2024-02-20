@@ -20,7 +20,8 @@ class OrderViewSet(viewsets.ModelViewSet):
         return OrderSerializer
 
     def get_queryset(self):
-        return Order.objects.filter(mysql_user_id=self.client_id).select_related('product').order_by('-created_at')
+        return Order.objects.filter(mysql_user_id=self.client_id
+                                    ).select_related('product').prefetch_related('services').order_by('-created_at')
 
     def perform_create(self, serializer):
         serializer.save(order_id=Order.generate_unique_order_id(mysql_user_id=self.client_id),
