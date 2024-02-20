@@ -40,8 +40,7 @@ INSTALLED_APPS = [
     'api.v1.orders.apps.OrdersConfig',
     'api.v1.solarapiinfos.apps.SolarapiinfosConfig',
     'api.v1.services.apps.ServicesConfig',
-    'api.v1.products.apps.ProductsConfig',
-
+    'api.v1.products.apps.ProductsConfig'
 ]
 
 MIDDLEWARE = [
@@ -142,6 +141,7 @@ ADMIN_SITE_HEADER = 'Suncount.io'
 
 SERVICE_LIMIT = 20
 PRODUCT_LIMIT = 5
+CLIENT_FREE_LIMIT = 50
 
 LESS_LIMIT_REQUEST = 50
 
