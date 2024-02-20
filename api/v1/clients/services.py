@@ -35,13 +35,12 @@ def get_client_discounts(mysql_user_id):
         discount_product = {
             'name': temp[0],
             'percent': temp[1],
-            'max_price': temp[2],
+            'max_price': temp[2]
         }
         discount_service = {
             'name': temp[3],
             'percent': temp[4],
-            'max_price': temp[5],
-
+            'max_price': temp[5]
         }
         if discount_service['percent'] is None:
             discount_service = None

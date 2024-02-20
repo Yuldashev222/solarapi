@@ -21,7 +21,7 @@ class Order(models.Model):
     panel_counts = models.PositiveSmallIntegerField()
 
     services = models.ManyToManyField('services.Service', blank=True)
-    products = models.ManyToManyField('products.Product', blank=True)
+    product = models.ForeignKey('products.Product', on_delete=models.SET_NULL, null=True)
 
     status = models.PositiveSmallIntegerField(choices=STATUS, default=STATUS[0][0])
     created_at = models.DateTimeField(auto_now_add=True)
