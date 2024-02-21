@@ -50,7 +50,7 @@ class SolarInfoAPIView(ReadOnlyModelViewSet):
 
         data = get_solar_api_info(longitude=longitude, latitude=latitude)
         obj = SolarInfo.objects.create(mysql_user_id=self.client_id, json_data=str(data),
-                                       success=bool(data.get('center')))
+                                       success=data.get('error') is not None)
 
         data['object_id'] = obj.pk
         data['discount_product'], data['discount_service'] = get_client_discounts(mysql_user_id=self.client_id)
