@@ -49,8 +49,9 @@ class SolarInfoAPIView(ReadOnlyModelViewSet):
             raise PermissionDenied(error_temp)
 
         data = get_solar_api_info(longitude=longitude, latitude=latitude)
-        obj = SolarInfo.objects.create(mysql_user_id=self.client_id, json_data=str(data),
-                                       success=data.get('error') is not None)
+        success = data.get('error') is not None
+        obj = SolarInfo.objects.create(mysql_user_id=self.client_id, json_data=str(data) if success else str({}),
+                                       success=success)
 
         data['object_id'] = obj.pk
         data['discount_product'], data['discount_service'] = get_client_discounts(mysql_user_id=self.client_id)
