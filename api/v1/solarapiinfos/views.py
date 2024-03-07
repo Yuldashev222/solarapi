@@ -38,14 +38,14 @@ class SolarInfoAPIView(ReadOnlyModelViewSet):
         latitude = request.query_params.get('location.latitude')
 
         if not (longitude or latitude):
-            error_temp['code'] = 400
-            error_temp['message'] = 'longitude and latitude are required'
-            error_temp['status'] = status.HTTP_400_BAD_REQUEST
+            error_temp['error']['code'] = 400
+            error_temp['error']['message'] = 'longitude and latitude are required'
+            error_temp['error']['status'] = status.HTTP_400_BAD_REQUEST
             raise ValidationError(error_temp)
 
         if not client_limit_exists(mysql_user_id=self.client_id):
-            error_temp['code'] = 403
-            error_temp['message'] += ' limit yoq'
+            error_temp['error']['code'] = 403
+            error_temp['error']['message'] += ' limit yoq'
             raise PermissionDenied(error_temp)
 
         data = get_solar_api_info(longitude=longitude, latitude=latitude)

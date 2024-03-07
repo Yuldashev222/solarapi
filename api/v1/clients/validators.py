@@ -30,8 +30,8 @@ def client_exists(mysql_user_id, domain):
 
 def client_limit_exists(mysql_user_id):
     solar_api_requests = SolarInfo.objects.filter(mysql_user_id=mysql_user_id, success=True).count()
-    if solar_api_requests < settings.CLIENT_FREE_LIMIT:
-        return True
+    # if solar_api_requests < settings.CLIENT_FREE_LIMIT:
+    #     return True
 
     connection = mysql.connector.connect(host=settings.MYSQL_HOST, user=settings.MYSQL_USER,
                                          password=settings.MYSQL_PASSWORD, database=settings.MYSQL_DATABASE)
@@ -52,7 +52,7 @@ def client_limit_exists(mysql_user_id):
         temp = cursor.fetchone()
         cursor.close()
         connection.close()
-        bol = temp[0] > solar_api_requests
+        bol = temp[0] is not None and (temp[0] > solar_api_requests)
         # if bol:
         #     send_message_on_less_limit.delay(mysql_user_id=mysql_user_id,
         #                                      request_counts=solar_api_requests,
