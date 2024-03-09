@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -34,6 +35,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'rest_framework',
     'django_filters',
+    'rest_framework_simplejwt',
 
     'api.v1.general.apps.GeneralConfig',
     'api.v1.clients.apps.ClientsConfig',
@@ -192,7 +194,17 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'api.v1.clients.permissions.IsMYSQLClient',
     ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
     'PAGE_SIZE': 10,
     'DATETIME_FORMAT': '%Y-%m-%d %H:%M',
 
 }
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30)
+}
+
+AUTH_USER_MODEL = 'clients.Client'

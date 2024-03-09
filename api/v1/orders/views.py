@@ -2,9 +2,20 @@ from rest_framework import filters
 from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import IsAuthenticated
 
 from api.v1.orders.models import Order
 from api.v1.orders.serializers import OrderSerializer, OrderReadOnlySerializer
+
+
+class OrderReadOnlyAPIView(viewsets.ReadOnlyModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    pagination_class = PageNumberPagination
+    serializer_class = OrderReadOnlySerializer
+
+    def get_queryset(self):
+        return Order.objects.filter(mysql_user_id=self.request.user.mysql_user_id
+                                    ).select_related('product').prefetch_related('services').order_by('-created_at')
 
 
 class OrderViewSet(viewsets.ModelViewSet):
