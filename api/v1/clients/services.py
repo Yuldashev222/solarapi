@@ -4,6 +4,30 @@ from django.core.mail import send_mail
 import mysql.connector
 
 
+def get_client_limit(mysql_user_id):
+    connection = mysql.connector.connect(host=settings.MYSQL_HOST, user=settings.MYSQL_USER,
+                                         password=settings.MYSQL_PASSWORD, database=settings.MYSQL_DATABASE)
+
+    order_table = settings.MYSQL_ORDER_TABLE
+    customer_table = settings.MYSQL_CUSTOMER_TABLE
+    product_table = settings.MYSQL_PRODUCT_TABLE
+    expire_days = settings.ORDER_EXPIRE_DAYS
+    if connection.is_connected():
+        cursor = connection.cursor()
+        query = (f'SELECT SUM(p.sku) FROM {order_table} AS t '
+                 f'JOIN {customer_table} AS c ON t.customer_id = c.customer_id '
+                 f'JOIN {product_table} AS p ON t.product_id = p.product_id '
+                 f'WHERE DATE_ADD(t.date_created, INTERVAL {expire_days} DAY) >= NOW() '
+                 f'AND c.user_id = {mysql_user_id}')
+
+        cursor.execute(query)
+        temp = cursor.fetchone()
+        cursor.close()
+        connection.close()
+        return temp[0] if temp[0] is not None else 0
+    return False
+
+
 def get_client_email(mysql_user_id):
     connection = mysql.connector.connect(host=settings.MYSQL_HOST, user=settings.MYSQL_USER,
                                          password=settings.MYSQL_PASSWORD, database=settings.MYSQL_DATABASE)
