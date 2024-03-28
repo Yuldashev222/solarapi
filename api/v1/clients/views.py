@@ -1,5 +1,5 @@
 from django.conf import settings
-from rest_framework.generics import CreateAPIView, ListAPIView, GenericAPIView
+from rest_framework.generics import CreateAPIView, GenericAPIView
 from rest_framework.response import Response
 
 from api.v1.clients.permissions import FromSuncountRequest, IsMYSQLClient
@@ -19,5 +19,5 @@ class ClientLimitAPIView(GenericAPIView):
     def get(self, request, *args, **kwargs):
         order_limit = get_client_limit(self.client_id)
         solar_api_requests = SolarInfo.objects.filter(mysql_user_id=self.client_id, success=True).count()
-
-        return Response({'limit': order_limit + settings.CLIENT_FREE_LIMIT - solar_api_requests})
+        limit = order_limit + settings.CLIENT_FREE_LIMIT - solar_api_requests
+        return Response({'limit': max(limit, 0)})
